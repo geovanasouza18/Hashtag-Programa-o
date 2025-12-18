@@ -1,5 +1,6 @@
 import pandas as pd
-import win32com.client as win32
+import smtplib
+import email.message
 
 #importar a base de dados
 tabelas_vendas = pd.read_excel('Vendas.xlsx')
@@ -28,30 +29,40 @@ ticket_medio = (faturamento['Valor Final'] / quantidade['Quantidade']).to_frame(
 print(ticket_medio)
 
 #enviar relatório para um email
-outlook = win32.Dispatch('outlook.application')
-mail = outlook.CreateItem(0)
-mail.To = 'geovanacastro0712@outlook.com'
-mail.Subject = 'Relatório de Vendas por Loja'
-mail.HTMLBody = f'''
-<p>Prezados,</p>
+def enviar_email():
+    corpo_email = f"""
+    <html>
+    <body style="font-family: Arial, sans-serif;">
+        <p>Prezados,</p>
+    
+        <p>Segue o Relatório de Vendas por cada Loja.</p>
+    
+        <p><strong>Faturamento:</strong></p>
+        {faturamento.to_html(index=False, border=1)}
+    
+        <p><strong>Quantidade Vendida:</strong></p>
+        {quantidade.to_html(index=False, border=1)}
+    
+        <p><strong>Ticket Médio:</strong></p>
+        {ticket_medio.to_html(index=False, border=1)}
+    
+        <p>Qualquer dúvida estou à disposição.</p>
+    
+        <p>Atte.,<br>Geovana</p>
+    </body>
+    </html>
+    """
+    msg = email.message.Message()
+    msg['From'] = f'geovana.developer@gmail.com'
+    msg['To'] = f'geovana.developer@gmail.com'
+    password = 'pdyb ulob eufx ugfg'
+    msg['Subject'] = 'Relatório de Vendas por Loja'
+    msg.add_header('Content-Type', 'text/html')
+    msg.set_payload(corpo_email)
 
-<p>Segue o Relatório de Vendas por cada Loja.</p>
+    s= smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
 
-<p>Faturamento:</p>
-{faturamento.to_html(formatters={'Valor Final': 'R${:,.2f}'.format})}
 
-<p>Quantidade Vendida:</p>
-{quantidade.to_html()}
 
-<p>Ticket Médio dos Produtos em cada Loja:</p>
-{ticket_medio.to_html(formatters={'Ticket Médio': 'R${:,.2f}'.format})}
-
-<p>Qualquer dúvida estou à disposição.</p>
-
-<p>Atte.,</p>
-<p>Geovana</p>
-'''
-
-mail.Send()
-
-print('Email Enviado')
+print('Email enviado com sucesso 📤🔥')
