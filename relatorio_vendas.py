@@ -29,40 +29,48 @@ ticket_medio = (faturamento['Valor Final'] / quantidade['Quantidade']).to_frame(
 print(ticket_medio)
 
 #enviar relatório para um email
+import smtplib
+from email.message import EmailMessage
+
 def enviar_email():
-    corpo_email = f"""
+    msg = EmailMessage()
+    msg['From'] = 'geovana.developer@gmail.com'
+    msg['To'] = 'geovana.developer@gmail.com'
+    msg['Subject'] = 'Relatório de Vendas por Loja'
+
+    html = f"""
     <html>
     <body style="font-family: Arial, sans-serif;">
         <p>Prezados,</p>
-    
+
         <p>Segue o Relatório de Vendas por cada Loja.</p>
-    
+
         <p><strong>Faturamento:</strong></p>
-        {faturamento.to_html(index=False, border=1)}
-    
+        {faturamento.to_html(border=1)}
+
         <p><strong>Quantidade Vendida:</strong></p>
-        {quantidade.to_html(index=False, border=1)}
-    
+        {quantidade.to_html(border=1)}
+
         <p><strong>Ticket Médio:</strong></p>
-        {ticket_medio.to_html(index=False, border=1)}
-    
+        {ticket_medio.to_html(border=1)}
+
         <p>Qualquer dúvida estou à disposição.</p>
-    
+
         <p>Atte.,<br>Geovana</p>
     </body>
     </html>
     """
-    msg = email.message.Message()
-    msg['From'] = f'geovana.developer@gmail.com'
-    msg['To'] = f'geovana.developer@gmail.com'
-    password = 'pdyb ulob eufx ugfg'
-    msg['Subject'] = 'Relatório de Vendas por Loja'
-    msg.add_header('Content-Type', 'text/html')
-    msg.set_payload(corpo_email)
 
-    s= smtplib.SMTP('smtp.gmail.com', 587)
-    s.starttls()
+    msg.add_alternative(html, subtype='html')
 
+    senha = 'pdyb ulob eufx ugfg'
 
+    with smtplib.SMTP('smtp.gmail.com', 587) as s:
+        s.set_debuglevel(1)
+        s.starttls()
+        s.login(msg['From'], senha)
+        s.send_message(msg)
 
-print('Email enviado com sucesso 📤🔥')
+    print("✅ Email enviado com sucesso")
+
+enviar_email()
