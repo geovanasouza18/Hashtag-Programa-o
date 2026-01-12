@@ -3,7 +3,7 @@ import smtplib
 import email.message
 
 #importar a base de dados
-tabelas_vendas = pd.read_excel('Vendas.xlsx')
+tabelas_vendas = pd.read_excel(r'C:\Users\User\PycharmProjects\MiniCursoPython - Hashtang\minicurso_python\Vendas.xlsx')
 
 #visualizar a base de dados
 pd.set_option('display.max_columns', None) #mostrar máximo de coluna
