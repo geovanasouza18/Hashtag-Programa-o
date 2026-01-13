@@ -18,7 +18,7 @@ time.sleep(3)
 #Fazendo login
 pyautogui.click(x=700, y=408)
 pyautogui.write('pythonimpressionador@gmail.com')
-pyautogui.press("tab")
+pyautogui.press('tab')
 pyautogui.write('python123')
 pyautogui.click(x=954, y=566)
 time.sleep(3)
@@ -29,26 +29,25 @@ print(tabela)
 for linha in tabela.index:
     #Cadastrar um produto
     pyautogui.click(x=743, y=285)
-    #Codigo
-    pyautogui.write('MOLO000251')
+    # pegar da tabela o valor do campo que a gente quer preencher
+    codigo = tabela.loc[linha, 'codigo']
+    # preencher o campo
+    pyautogui.write(str(codigo))
+    # passar para o proximo campo
     pyautogui.press('tab')
-    #Marca
-    pyautogui.write('Logitech')
+    # preencher o campo
+    pyautogui.write(str(tabela.loc[linha, 'marca']))
     pyautogui.press('tab')
-    #Tipo
-    pyautogui.write('Mouse')
+    pyautogui.write(str(tabela.loc[linha, 'tipo']))
     pyautogui.press('tab')
-    #categoria
-    pyautogui.write('1')
+    pyautogui.write(str(tabela.loc[linha, 'categoria']))
     pyautogui.press('tab')
-    #Preço unitário
-    pyautogui.write('25.95')
+    pyautogui.write(str(tabela.loc[linha, 'preco_unitario']))
     pyautogui.press('tab')
-    #Custo
-    pyautogui.write('6.50')
+    pyautogui.write(str(tabela.loc[linha, 'custo']))
     pyautogui.press('tab')
-    #OBS
-    pyautogui.write('obs')
-    pyautogui.press('tab')
+    obs = tabela.loc[linha, 'obs']
 
     pyautogui.press('enter')
+    pyautogui.scroll(5000)
+
