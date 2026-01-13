@@ -47,7 +47,9 @@ for linha in tabela.index:
     pyautogui.write(str(tabela.loc[linha, 'custo']))
     pyautogui.press('tab')
     obs = tabela.loc[linha, 'obs']
-
+    if not pd.isna(obs):
+        pyautogui.write(str(tabela.loc[linha, "obs"]))
+    pyautogui.press('tab')
     pyautogui.press('enter')
     pyautogui.scroll(5000)
 
