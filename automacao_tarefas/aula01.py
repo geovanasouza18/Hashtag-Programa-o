@@ -12,7 +12,7 @@ pyautogui.write('chrome')
 pyautogui.press('enter')
 pyautogui.write(link)
 pyautogui.press('enter')
-#Fazer uma pausa maior para o site carregar
+
 time.sleep(3)
 
 #Fazendo login
